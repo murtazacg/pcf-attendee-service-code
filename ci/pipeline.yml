@@ -9,7 +9,7 @@ resources:
 - name: deploy-attendee-service
   type: cf
   source:
-    api: apps.run.haas-69.pez.pivotal.io
+    api: https://apps.run.haas-69.pez.pivotal.io
     username: {{cf-user}}
     password: {{cf-password}}
     organization: mgoga-pal
