@@ -3,15 +3,28 @@ resources:
 - name: attendee-service
   type: git
   source:
-    uri: https://github.com/pivotal-enablement/attendee-service
+    uri: https://github.com/murtazacg/pcf-attendee-service-code
     branch: master
 
+- name: deploy-attendee-service
+  type: cf
+  source:
+    api: https://api.run.haas-69.pez.pivotal.io
+    username: {{cf-user}}
+    password: {{cf-password}}
+    organization: mgoga-pal
+    space: sandbox
+    skip_cert_check: true
+
 jobs:
-- name: package
+- name: build
   public: true
   plan:
   - get: attendee-service
+    trigger: true
   - task: package
-    privileged: true
     file: attendee-service/ci/tasks/package.yml
-
+  - put: deploy-attendee-service
+    params:
+      manifest: attendee-service/manifest.yml
+      path: package-output/attendee-service.jar
